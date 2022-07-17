@@ -1,0 +1,2 @@
+/usr/bin/ar qc libsrc.a  CMakeFiles/src.dir/Allocator.cc.o CMakeFiles/src.dir/FileManeger.cc.o CMakeFiles/src.dir/channel.cc.o
+/usr/bin/ranlib libsrc.a

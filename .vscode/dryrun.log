@@ -1,0 +1,5 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/wanbess/filesys'
+mkdir -p build && cd build && cmake .. && make
+make: Leaving directory '/home/wanbess/filesys'
+ 
