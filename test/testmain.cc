@@ -16,5 +16,6 @@ int main(){
     for(auto &it:vc){
         std::cout<<f.find(it.c_str(),FileType::Directory)<<std::endl;
     }
+    return 0;
 
 }
