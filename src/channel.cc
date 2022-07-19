@@ -35,6 +35,7 @@ void init_Superblock(Superblock* s_block){
     Inode nodes[s_block.inode_n];
     for(unsigned long i=0;i<s_block.inode_n;++i){
         nodes[i].n_inode=i;
+        memset(nodes[i].i_block,0xffffffffffffffff,sizeof(Inode::i_block));
     }
     write(inodeEntryStart(),(std::intptr_t)nodes,(blockEntryStart()-inodeEntryStart())*block_size);
     LOG("-- init inode entry \r\n")
