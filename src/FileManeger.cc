@@ -27,6 +27,14 @@ void FileManeger::InitDirInode(unsigned long last_no,Inode* target,FileType type
     ch->putInode(target->n_inode,target);
     ch->putDirBlock(target->i_block[0],&block);
 }
+void FileManeger::InitLinkInode(unsigned long last_no,Inode* node,Inode* target){
+    target->block_use=1;
+    target->i_count.i_node_cnt=2;
+    target->i_type=FileType::Link;
+    target->last_re =std::chrono::system_clock::now();
+    target->i_block[0]=target->n_inode;
+    ch->putInode(node->n_inode,node);
+}
 bool FileManeger::findfileInBlock(const char* str,unsigned long no_block,Inode* target,FileType type){
     Block now_block;
     Inode temp;

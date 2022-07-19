@@ -1,4 +1,5 @@
 #include"Allocator.h"
+#include"string.h"
 std::vector<unsigned long> BlockAlloc::alloc_BaseMap(unsigned long begin,unsigned long end,size_t leng,int num){
     char * temp=new char[(end-begin)*block_size];
     ch->read(begin,end-begin,(std::intptr_t)temp);
