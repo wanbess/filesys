@@ -9,7 +9,7 @@ FileManeger::FileManeger(){
 FileManeger::FileManeger(std::unique_ptr<Channel>&& ch,std::unique_ptr<BlockAlloc>&& allocator): ch(std::move(ch)),allocator(std::move(allocator)){
 }
 
-//为新的inode初始化
+//Ϊ�µ�inode��ʼ��
 void FileManeger::InitDirInode(unsigned long last_no,Inode* target,FileType type){
     target->block_use=1;
     target->i_count.i_node_cnt=2;
@@ -34,7 +34,7 @@ bool FileManeger::findfileInBlock(const char* str,unsigned long no_block,Inode* 
     for(int i=0;i<dir_entry_num;i++){
         const char * buf =now_block.dir_entry[i].dir_name;
         unsigned long offset=now_block.dir_entry[i].offset;
-        if(offset==0xffffffffffffffff) break;
+        if(offset==0xffffffffffffffff) continue;
         if(strcmp(buf,str)==0){
             ch->getInode(offset,&temp);
             if(temp.i_type==type){
@@ -86,7 +86,7 @@ void FileManeger::InitRootNode(){
     }
     return 0;
 }
-/***  在数据block中找到一块空闲的dir entry，并分配新的inode。
+/***  ������block���ҵ�һ����е�dir entry���������µ�inode��
 */
 bool FileManeger::findSpaceInBlock(const char* str,unsigned long no_block,Inode *target,FileType type){
     Block now_block;
@@ -183,4 +183,82 @@ bool FileManeger::find(const char * str,FileType type){
   if(re) return 1;
   else return 0;
 }
-bool any(){}
+// 清除目录块中所有的子内容
+void FileManeger::removeAllInBlock(unsigned long no_block,FileType type){
+    assert(type!=FileType::Normal);
+    if(type==FileType::Directory){
+        Block block;
+        ch->getDirBlock(no_block,&block);
+        for(int i=0;i<dir_entry_num;++i){
+           if( block.dir_entry->offset ==0xffffffffffffffff) continue;
+           Inode node;
+           unsigned long offset=block.dir_entry[i].offset;
+           ch->getInode(offset,&node);
+           removeInode(&node);
+        }
+    }else{
+
+    }
+    allocator->release_Block(no_block);
+}
+
+void FileManeger::removeOrderBlock(unsigned long no_block,short order,FileType type){
+   //此时block为正常块，若要删除的是文件，直接将该块删去；若删除的目录，此时block是目录键值对，需要调用
+    if(order==0){
+       if(type==FileType::Normal) allocator->release_Block(no_block);
+       else  removeAllInBlock(no_block,type);
+    }
+    Indirect_block in_block;
+    ch->getOrderBlock(no_block,&in_block);
+    for(int i=0;i<order_entry_num;++i){
+        if(in_block.offset[i]==0xffffffffffffffff) continue;
+        removeOrderBlock(in_block.offset[i],order-1,type);
+    }
+    allocator->release_Block(no_block);
+}
+void FileManeger::removeInode(Inode *node){
+    allocator->release_Inode(node->n_inode);
+    short i=0;
+    for(;i<MIN(i_data_block,node->block_use);++i){
+        if(node->i_block[i]==0xffffffffffffffff) continue;
+        if(node->i_type==FileType::Normal)
+          allocator->release_Block(node->i_block[i]);
+        else  removeAllInBlock(node->i_block[i],node->i_type);
+    }
+    if(node->block_use<=i_data_block){
+        LOG("release %d block in no:%lu inode, belong data block \r\n",node->block_use,node->n_inode);
+        return ;
+    }
+    for(;i<MIN(node->block_use,i_data_block+i_first_order_block);++i){
+          if(node->i_block[i]!=0xffffffffffffffff) 
+          removeOrderBlock(node->i_block[i],1,node->i_type);
+    }
+    if(node->block_use<=i_data_block+i_first_order_block){
+        LOG("release %d block in no:%lu inode, belong first order block \r\n",node->block_use,node->n_inode);
+        return ;
+    }
+    for(;i<MIN(node->block_use,i_data_block+i_first_order_block+i_second_order_block);++i){
+        if(node->i_block[i]!=0xffffffffffffffff) 
+        removeOrderBlock(node->i_block[i],2,node->i_type);
+    }
+    if(node->block_use<=i_data_block+i_first_order_block+i_second_order_block){
+        LOG("release %d block in no:%lu inode, belong second order block \r\n",node->block_use,node->n_inode);
+        return ;
+    }
+    for(;i<MIN(node->block_use,i_data_block+i_first_order_block+i_second_order_block+i_third_order_block);++i){
+        if(node->i_block[i]!=0xffffffffffffffff) 
+        removeOrderBlock(node->i_block[i],3,node->i_type);
+    }
+    LOG("release %d block in no:%lu inode, belong third order block \r\n",node->block_use,node->n_inode);
+}
+
+bool FileManeger::remove(const char* str,FileType type){
+    Inode * root = getrootInode();
+    std::unique_ptr<Inode> node =  findFile(str,root,type);
+    if(node==nullptr){
+        LOG("can't remove  %s in root because it doense't exit \r\n",str);
+        return 0;
+    }
+    removeInode(node.get());
+    return 1;
+}
