@@ -47,7 +47,8 @@ bool BlockAlloc::release_Inode(unsigned long no_block){
    ch->read(ch->inodeMapStart(),ch->blockMapStart()-ch->inodeMapStart(),(std::intptr_t)temp);
    temp[(no_block-ch->inodeEntryStart())/8] |= (1<<((no_block-ch->inodeEntryStart())%8));
    ch->write(ch->inodeMapStart(),(std::intptr_t)temp,ch->blockMapStart()-ch->inodeMapStart());
-   char back[block_size]={0};
+   char back[block_size];
+   memset(back,0,block_size);
    ch->write(no_block,(std::intptr_t)back,block_size);
    LOG("-- inode %lu has been release \r\n",no_block)
    delete[] temp;
@@ -59,7 +60,8 @@ bool BlockAlloc::release_Block(unsigned long no_block){
     ch-> read(ch->blockMapStart(),ch->inodeEntryStart()-ch->blockMapStart(),(std::intptr_t)temp);
     temp[((no_block-ch->blockEntryStart())/8)] |= (1<<((no_block-ch->blockEntryStart())%8));
     ch->write(ch->blockMapStart(),(std::intptr_t)temp,ch->inodeEntryStart()-ch->blockMapStart());
-    char back[block_size]={0};
+    char back[block_size];
+    memset(back,0xff,block_size);
     ch->write(no_block,(std::intptr_t)back,block_size);
     LOG("-- data block %lu has been release \r\n",no_block)
     delete[] temp;
