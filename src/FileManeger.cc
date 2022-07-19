@@ -183,3 +183,4 @@ bool FileManeger::find(const char * str,FileType type){
   if(re) return 1;
   else return 0;
 }
+bool any(){}
