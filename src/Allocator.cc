@@ -43,14 +43,15 @@ std::vector<unsigned long> BlockAlloc::alloc_Block(size_t need){
     
      return re;
 }
+// 对于Inode, 释放和申请磁盘块是按照inode索引号；而block磁盘块则是按照磁盘区的块索引
 bool BlockAlloc::release_Inode(unsigned long no_block){
    char * temp = new char[ (ch->blockMapStart()-ch->inodeMapStart())*block_size];
    ch->read(ch->inodeMapStart(),ch->blockMapStart()-ch->inodeMapStart(),(std::intptr_t)temp);
-   temp[(no_block-ch->inodeEntryStart())/8] |= (1<<((no_block-ch->inodeEntryStart())%8));
+   temp[(no_block)/8] &=(~(1<<((no_block)%8)));
    ch->write(ch->inodeMapStart(),(std::intptr_t)temp,ch->blockMapStart()-ch->inodeMapStart());
-   char back[block_size];
-   memset(back,0,block_size);
-   ch->write(no_block,(std::intptr_t)back,block_size);
+   Inode node;
+   node.n_inode=no_block;
+   ch->putInode(no_block,&node);
    LOG("-- inode %lu has been release \r\n",no_block)
    delete[] temp;
    return 1;
@@ -59,11 +60,11 @@ bool BlockAlloc::release_Inode(unsigned long no_block){
 bool BlockAlloc::release_Block(unsigned long no_block){
     char * temp = new char[( ch->inodeEntryStart()-ch->blockMapStart())*block_size];
     ch-> read(ch->blockMapStart(),ch->inodeEntryStart()-ch->blockMapStart(),(std::intptr_t)temp);
-    temp[((no_block-ch->blockEntryStart())/8)] |= (1<<((no_block-ch->blockEntryStart())%8));
+    temp[((no_block-ch->blockEntryStart())/8)] &= (~(1<<((no_block-ch->blockEntryStart())%8)));
     ch->write(ch->blockMapStart(),(std::intptr_t)temp,ch->inodeEntryStart()-ch->blockMapStart());
-    char back[block_size];
-    memset(back,0xff,block_size);
-    ch->write(no_block,(std::intptr_t)back,block_size);
+    char block[block_size];
+    memset(&block,0xff,block_size);
+    ch->write(no_block,(std::intptr_t)&block,block_size);
     LOG("-- data block %lu has been release \r\n",no_block)
     delete[] temp;
     return 1;

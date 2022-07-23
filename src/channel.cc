@@ -2,7 +2,7 @@
 #include"assert.h"
 #include<stdlib.h>
 #include<string.h>
-void init_Superblock(Superblock* s_block){
+void Channel::init_Superblock(Superblock* s_block){
     LOG("-- Read to inti dist space \r\n")
     s_block->transaction_map_ptr=sizeof(Superblock)/block_size+((sizeof(Superblock)%block_size)>0);
     LOG("-- transaction data begin in BLock: %lu \r\n",s_block->transaction_map_ptr)
@@ -35,7 +35,7 @@ void init_Superblock(Superblock* s_block){
     Inode nodes[s_block.inode_n];
     for(unsigned long i=0;i<s_block.inode_n;++i){
         nodes[i].n_inode=i;
-        memset(nodes[i].i_block,0xffffffffffffffff,sizeof(Inode::i_block));
+        memset(nodes[i].i_block,0xff,sizeof(Inode::i_block));
     }
     write(inodeEntryStart(),(std::intptr_t)nodes,(blockEntryStart()-inodeEntryStart())*block_size);
     LOG("-- init inode entry \r\n")
@@ -48,6 +48,7 @@ void init_Superblock(Superblock* s_block){
 }
 Channel::~Channel(){
     int r=fclose(f);
+ 
    // if(f) LOG("fail to close channel file \r\n")
 }
  void Channel::read(unsigned long offset,int read_b,std::intptr_t ptr){

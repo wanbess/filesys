@@ -16,6 +16,7 @@ public:
     };
     explicit Channel(size_t c,size_t transaction,size_t block,const char* file);
     ~Channel();
+     void init_Superblock(Superblock* s_block); 
     void putInode(unsigned long offset, Inode *node);
     void putDirBlock(unsigned long offset,Block *node);
     void putOrderBlock(unsigned long offset,Indirect_block *node);
@@ -41,6 +42,7 @@ public:
 private:
  Superblock s_block;
  FILE* f;
+
  size_t capacity;
  const char* filename;
  const static unsigned long format_block=32; //每次格式化磁盘的盘块数

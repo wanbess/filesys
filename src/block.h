@@ -17,6 +17,7 @@ const int i_third_order_block=1;
 const int order_entry_num=block_size/sizeof(unsigned long); //一个磁盘块可容乃的间接块索引数量
 const int i_block_num = i_data_block+i_first_order_block+i_second_order_block+i_third_order_block;
 const int dir_entry_num = block_size/maxa_dir_entry_size; //一个磁盘块的目录数量
+const int block_step[4]={i_data_block,i_data_block+i_first_order_block,i_data_block+i_first_order_block+i_second_order_block,i_data_block+i_first_order_block+i_second_order_block+i_third_order_block};
 const long long max_dir_num = i_data_block*dir_entry_num+i_first_order_block*order_entry_num*dir_entry_num
 +i_second_order_block*order_entry_num*order_entry_num*dir_entry_num+i_third_order_block*order_entry_num
 *order_entry_num*order_entry_num*dir_entry_num;

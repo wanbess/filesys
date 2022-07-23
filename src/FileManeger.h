@@ -17,6 +17,7 @@ public:
   bool findSpaceInOrderBlock(const char* str,unsigned long no_block,Inode* target,short order,FileType type);
   std::unique_ptr<Inode> creatDir(const char* str,Inode* root,FileType type);
 private:
+  bool removeContext(const char* str,FileType type,Inode *root);
   void InitLinkInode(unsigned long last_no,Inode* node,Inode* target);
   void removeInode(Inode* node);
   void removeAllInBlock(unsigned long no_block,FileType type);

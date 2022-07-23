@@ -5,9 +5,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
- 
 
-# Make data base, printed on Sun Jul 17 20:23:47 2022
+# Make data base, printed on Sat Jul 23 23:16:29 2022
 
 # Variables
 
@@ -30,9 +29,9 @@ CURDIR := /home/wanbess/filesys
 # makefile
 SHELL = /bin/sh
 # environment
-VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"1d735750dbb1b9066c7513078396ba0f.zh-cn","_translationsConfigFile":"/home/wanbess/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/tcf.json","_cacheRoot":"/home/wanbess/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn","_resolvedLanguagePackCoreLocation":"/home/wanbess/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a","_corruptedFile":"/home/wanbess/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"1d735750dbb1b9066c7513078396ba0f.zh-cn","_translationsConfigFile":"/home/wanbess/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/tcf.json","_cacheRoot":"/home/wanbess/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn","_resolvedLanguagePackCoreLocation":"/home/wanbess/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"/home/wanbess/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/corrupted.info","_languagePackSupport":true}
 # environment
-_ = /home/wanbess/.vscode-server/bin/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a/node
+_ = /home/wanbess/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/node
 # makefile (from 'Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
 # 'override' directive
@@ -41,6 +40,8 @@ GNUMAKEFLAGS :=
 XDG_DATA_DIRS = /usr/local/share:/usr/share:/var/lib/snapd/desktop
 # environment
 VSCODE_CWD = /mnt/c/Users/pc/AppData/Local/Programs/Microsoft VS Code
+# environment
+GOPROXY = https://proxy.golang.org,direct
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -50,7 +51,7 @@ GOPATH = /home/wanbess/golang
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-2ab0369d-73c3-47f4-b805-8de9a454faa3.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-0669ff53-0d00-4cdd-8113-62bd74a4c739.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # automatic
@@ -71,7 +72,6 @@ VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 HOME = /home/wanbess
 # environment
 LOGNAME = wanbess
- 
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
 # environment
@@ -79,7 +79,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
-HTTPS_proxy = http://172.18.80.1:7890
+HTTPS_proxy = http://172.25.176.1:7890
 # environment
 MAKELEVEL := 0
 # default
@@ -87,7 +87,7 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-PATH = /home/wanbess/.vscode-server/bin/b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a/bin/remote-cli:/usr/local/go1.17.6/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/CMake/bin:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/d/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/pc/AppData/Local/Microsoft/WindowsApps:/mnt/d/nodejs/node_global:/mnt/c/Users/pc/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /usr/local/go1.17.6/bin:/home/wanbess/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/CMake/bin:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/d/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/tools/lxrunoffline:/mnt/c/Users/pc/AppData/Local/Microsoft/WindowsApps:/mnt/d/nodejs/node_global:/mnt/c/Users/pc/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 SHLVL = 0
 # default
@@ -121,7 +121,7 @@ MFLAGS = -pqrR
 # automatic
 +F = $(notdir $+)
 # environment
-HTTP_PROXY = http://172.18.80.1:7890
+HTTP_PROXY = http://172.25.176.1:7890
 # environment
 VSCODE_HANDLES_SIGPIPE = true
 # default
@@ -129,7 +129,7 @@ MAKEFILES :=
 # automatic
 <F = $(notdir $<)
 # environment
-https_proxy = http://172.18.80.1:7890
+https_proxy = http://172.25.176.1:7890
 # environment
 LC_ALL = C
 # environment
@@ -143,7 +143,7 @@ SUFFIXES :=
 # default
 .RECIPEPREFIX := 
 # environment
-http_proxy = http://172.18.80.1:7890
+http_proxy = http://172.25.176.1:7890
 # environment
 LANG = C
 # environment
@@ -153,7 +153,7 @@ WSL_DISTRO_NAME = Ubuntu
 # environment
 MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=70/1024=7%, Rehash=0, Collisions=5/98=5%
+# Load=71/1024=7%, Rehash=0, Collisions=5/99=5%
 
 # Pattern-specific Variable Values
 
@@ -161,9 +161,9 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 2064, inode 5836): 8 files, no impossibilities.
+# . (device 2064, inode 5836): 12 files, no impossibilities.
 
-# 8 files, no impossibilities in 1 directories.
+# 12 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -208,7 +208,7 @@ all:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-17 20:23:44.038152
+#  Last modified 2022-07-23 23:16:17.551306
 #  File has been updated.
 #  Successfully updated.
 
@@ -223,7 +223,7 @@ clean:
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 5):
-	cd build && make clean
+	 rm src/default.fs && rm test/test.log && rm test/default.fs &&rm -r build/ 
 
 # files hash-table stats:
 # Load=5/1024=0%, Rehash=0, Collisions=0/17=0%
@@ -233,12 +233,12 @@ clean:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 14 / storage = 122 B / avg = 8 B
-# current buf: size = 8162 B / used = 122 B / count = 14 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 18 / storage = 153 B / avg = 8 B
+# current buf: size = 8162 B / used = 153 B / count = 18 / avg = 8 B
 
-# strcache performance: lookups = 22 / hit rate = 36%
+# strcache performance: lookups = 26 / hit rate = 30%
 # hash-table stats:
-# Load=14/8192=0%, Rehash=0, Collisions=1/22=5%
-# Finished Make data base on Sun Jul 17 20:23:47 2022
+# Load=18/8192=0%, Rehash=0, Collisions=1/26=4%
+# Finished Make data base on Sat Jul 23 23:16:29 2022
 
  

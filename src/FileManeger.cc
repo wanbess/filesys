@@ -20,10 +20,10 @@ void FileManeger::InitDirInode(unsigned long last_no,Inode* target,FileType type
     ch->getDirBlock(target->i_block[0],&block);
     const char* now_path=".";
     const char* last_path="..";
-    strcpy(block.dir_entry[0].dir_name,now_path);
-    strcpy(block.dir_entry[1].dir_name,last_path);
-    block.dir_entry[0].offset=target->n_inode;
-    block.dir_entry[1].offset=last_no;
+    strcpy(block.dir_entry[1].dir_name,now_path);
+    strcpy(block.dir_entry[0].dir_name,last_path);
+    block.dir_entry[1].offset=target->n_inode;
+    block.dir_entry[0].offset=last_no;
     ch->putInode(target->n_inode,target);
     ch->putDirBlock(target->i_block[0],&block);
 }
@@ -63,22 +63,14 @@ void FileManeger::InitRootNode(){
   
     if(root->i_type==FileType::Directory){
         std::unique_ptr<Inode> node(new Inode());
-        for(short i=0;i<MIN(i_data_block,root->block_use);++i){
-           if(findfileInBlock(str,root->i_block[i],node.get(),type)) 
-              return node;
-        }
-        for(short i=i_data_block;i<MIN(root->block_use,i_data_block+i_first_order_block);++i){
-            if(findFileInOrderBlock(str,root->i_block[i],node.get(),1,type)) return node;
-        }
-        for( short i=i_data_block+i_first_order_block;i<MIN(root->block_use,i_first_order_block+i_data_block+i_second_order_block);++i){
-            if(findFileInOrderBlock(str,root->i_block[i],node.get(),2,type)) return node;
-        }
-        for(short i=i_data_block+i_first_order_block+i_second_order_block;
-        i<MIN(root->block_use,i_data_block+i_first_order_block+i_second_order_block+i_third_order_block);++i){
-            if(findFileInOrderBlock(str,root->i_block[i],node.get(),3,type)) return node;
-        }     
-    }
-    
+        unsigned short i=0;
+        for(int k=0;k<4;++k){
+           for(;i<MIN(block_step[k],root->block_use);++i){
+              if(findFileInOrderBlock(str,root->i_block[i],node.get(),k,type)) 
+                 return node;
+            }
+        }   
+    } 
     LOG("can't find target file: %s in node dir \r\n",str)
         return nullptr;
  }
@@ -89,8 +81,10 @@ void FileManeger::InitRootNode(){
     Indirect_block now_block;
     ch->getOrderBlock(no_block,&now_block);
     for(int i=0;i<order_entry_num;++i){
-        if(findFileInOrderBlock(str,now_block.offset[i],target,order-1,type)) 
-           return 1;
+        if(now_block.offset[i]!=0xffffffffffffffff){
+            if(findFileInOrderBlock(str,now_block.offset[i],target,order-1,type)) 
+               return 1;
+        }
     }
     return 0;
 }
@@ -118,20 +112,24 @@ bool FileManeger::findSpaceInOrderBlock(const char * str,unsigned long no_block,
    if(order==0){
     return findSpaceInBlock(str,no_block,target,type);
    }
+   bool finded=0;
    Indirect_block now_block;
    ch->getOrderBlock(no_block,&now_block);
    for(int i=0;i<order_entry_num;++i){
-    if(now_block.offset[i]){
-        if(findSpaceInOrderBlock(str,now_block.offset[i],target,order-1,type))
-          return 1;
+    if(now_block.offset[i]!=0xffffffffffffffff){
+        if((finded=findSpaceInOrderBlock(str,now_block.offset[i],target,order-1,type))==1){
+            break;
+        }
     }else{
         now_block.offset[i]= allocator->alloc_Block(1)[0];
-        bool finded=findFileInOrderBlock(str,now_block.offset[i],target,order-1,type);
+        finded=findSpaceInOrderBlock(str,now_block.offset[i],target,order-1,type);
         if(!finded) LOG("-- error in alloct Order block:  %lu \r\n",now_block.offset[i])
-        return 1;
+        finded=1;
+        break;
     }
    }
-   return 0;
+   ch->putOrderBlock(no_block,&now_block);
+   return finded;
 }
 std::unique_ptr<Inode> FileManeger::creatDir(const char* str,Inode* root,FileType type){
   
@@ -140,38 +138,24 @@ std::unique_ptr<Inode> FileManeger::creatDir(const char* str,Inode* root,FileTyp
         if(findFile(str,root,type)) return node;
         bool finded=0;
         unsigned short i=0;
-        for(;i<MIN(root->block_use,i_data_block);++i){
-            if(findSpaceInBlock(str,root->i_block[i],node.get(),type)){
-                finded=true;
-                root->block_use=MAX(root->block_use,i+1);
-                InitDirInode(root->n_inode,node.get(),type);
-                LOG("creat new dir in  root inode no %d entry \r\n",i)
-                return node;
-            }
-        }
-        if(root->block_use<i_data_block){
-            root->i_block[i]=allocator->alloc_Block(1)[0];
-            root->block_use++;
-            bool r=findSpaceInBlock(str,root->i_block[i],node.get(),type);
-            assert(r);
-            InitDirInode(root->n_inode,node.get(),type);
-            return node;
-        }
-        for(;i<MIN(root->block_use,i_data_block+i_first_order_block);++i){
-            if(findSpaceInOrderBlock(str,root->i_block[i],node.get(),1,type)) return node;    
-        }
-        if(!finded&&root->block_use<i_data_block+i_first_order_block){
-               
-        }
-        for(;i<MIN(root->block_use,i_data_block+i_first_order_block+i_second_order_block);++i){
-             if(findSpaceInOrderBlock(str,root->i_block[i],node.get(),2,type)){
+        for(int k=0;k<4;++k){
+          for(;i<MIN(root->block_use,block_step[k]);++i){
+            if(findSpaceInOrderBlock(str,root->i_block[i],node.get(),k,type)){
                 root->block_use=MAX(root->block_use,i+1);
                 root->i_count.i_block_cnt++;
                 InitDirInode(root->n_inode,node.get(),type);
                 return node;
-             }
-        }
-       
+            }    
+          }
+          if(root->block_use<block_step[k]){
+             root->i_block[i]=allocator->alloc_Block(1)[0];
+             root->block_use++;
+             bool r=findSpaceInOrderBlock(str,root->i_block[i],node.get(),k,type);
+             assert(r);
+             InitDirInode(root->n_inode,node.get(),type);
+             return node;         
+          }  
+        }          
     }
     LOG("there is no enough space for creat dir %s \r\n",str)
     return nullptr;
@@ -198,7 +182,10 @@ void FileManeger::removeAllInBlock(unsigned long no_block,FileType type){
         Block block;
         ch->getDirBlock(no_block,&block);
         for(int i=0;i<dir_entry_num;++i){
-           if( block.dir_entry->offset ==0xffffffffffffffff) continue;
+           if( block.dir_entry[i].offset ==0xffffffffffffffff) continue;
+           //对于当前目录和上级目录，不做删除
+           if( strcmp(block.dir_entry[i].dir_name,".")==0 ||strcmp(block.dir_entry[i].dir_name,"..")==0)
+               continue;
            Inode node;
            unsigned long offset=block.dir_entry[i].offset;
            ch->getInode(offset,&node);
@@ -234,7 +221,7 @@ void FileManeger::removeInode(Inode *node){
         else  removeAllInBlock(node->i_block[i],node->i_type);
     }
     if(node->block_use<=i_data_block){
-        LOG("release %d block in no:%lu inode, belong data block \r\n",node->block_use,node->n_inode);
+        LOG("release %d blocks in no:%lu inode, belong data block \r\n",node->block_use,node->n_inode);
         return ;
     }
     for(;i<MIN(node->block_use,i_data_block+i_first_order_block);++i){
@@ -259,14 +246,17 @@ void FileManeger::removeInode(Inode *node){
     }
     LOG("release %d block in no:%lu inode, belong third order block \r\n",node->block_use,node->n_inode);
 }
-
-bool FileManeger::remove(const char* str,FileType type){
-    Inode * root = getrootInode();
+bool FileManeger::removeContext(const char* str,FileType type,Inode *root){
     std::unique_ptr<Inode> node =  findFile(str,root,type);
-    if(node==nullptr){
+      if(node==nullptr){
         LOG("can't remove  %s in root because it doense't exit \r\n",str);
         return 0;
     }
     removeInode(node.get());
-    return 1;
+   return 1;
+}
+
+bool FileManeger::remove(const char* str,FileType type){
+    Inode * root = getrootInode();
+    return removeContext(str,type,root);
 }
