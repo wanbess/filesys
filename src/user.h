@@ -9,10 +9,18 @@ enum class BaseCommand{
     RM,
     CP
 };
+enum class ArgType{
+    _P,
+    _R,
+    _P,
+};
 struct Command{
    BaseCommand  suf; 
-   std::vector<std::string> para;
-   std::vector<std::string> rpath;
+   std::vector<ArgType> para;
+   struct Compath{
+       std::vector<std::string> rpath;
+       bool root_b;
+   }compath;
 };
 class User{
 public:
@@ -32,7 +40,7 @@ public:
   bool commandRm(Command& com);
   bool commandLink(Command& com);
 private:
-  
+  std::unique_ptr<Inode>  findpath(Inode* root,std::vector<std::string> &path,bool recor);
   Mode auth;
   Inode* now_node;
   FileManeger* maneger;
