@@ -8,7 +8,7 @@
 #define CLOSE_LOG(logfile)  fclose(logfile);
 #define LOGFILE testlog
 #define LOGNAME "test.log"
- inline OPEN_LOG(LOGFILE,LOGNAME)
+inline OPEN_LOG(LOGFILE,LOGNAME)
 #else
 #define LOG(... )  do{  printf( __VA_ARGS__); }while (0);
 #define OPEN_LOG(logfile) 

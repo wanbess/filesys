@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jul 23 23:16:29 2022
+# Make data base, printed on Sun Jul 24 09:15:31 2022
 
 # Variables
 
@@ -40,8 +40,6 @@ GNUMAKEFLAGS :=
 XDG_DATA_DIRS = /usr/local/share:/usr/share:/var/lib/snapd/desktop
 # environment
 VSCODE_CWD = /mnt/c/Users/pc/AppData/Local/Programs/Microsoft VS Code
-# environment
-GOPROXY = https://proxy.golang.org,direct
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
@@ -51,7 +49,7 @@ GOPATH = /home/wanbess/golang
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-0669ff53-0d00-4cdd-8113-62bd74a4c739.sock
+VSCODE_IPC_HOOK_CLI = /tmp/vscode-ipc-9b9a5f2e-2071-468f-97b0-7e2b6793eaa8.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # automatic
@@ -73,13 +71,13 @@ HOME = /home/wanbess
 # environment
 LOGNAME = wanbess
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
-HTTPS_proxy = http://172.25.176.1:7890
+HTTPS_proxy = http://172.27.144.1:7890
 # environment
 MAKELEVEL := 0
 # default
@@ -87,7 +85,7 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-PATH = /usr/local/go1.17.6/bin:/home/wanbess/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/CMake/bin:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/d/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/tools/lxrunoffline:/mnt/c/Users/pc/AppData/Local/Microsoft/WindowsApps:/mnt/d/nodejs/node_global:/mnt/c/Users/pc/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
+PATH = /home/wanbess/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/remote-cli:/usr/local/go1.17.6/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Python310/Scripts/:/mnt/c/Python310/:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/CMake/bin:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/d/nodejs/:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/tools/lxrunoffline:/mnt/c/Users/pc/AppData/Local/Microsoft/WindowsApps:/mnt/d/nodejs/node_global:/mnt/c/Users/pc/AppData/Local/Programs/Microsoft VS Code/bin:/snap/bin
 # environment
 SHLVL = 0
 # default
@@ -121,7 +119,7 @@ MFLAGS = -pqrR
 # automatic
 +F = $(notdir $+)
 # environment
-HTTP_PROXY = http://172.25.176.1:7890
+HTTP_PROXY = http://172.27.144.1:7890
 # environment
 VSCODE_HANDLES_SIGPIPE = true
 # default
@@ -129,7 +127,7 @@ MAKEFILES :=
 # automatic
 <F = $(notdir $<)
 # environment
-https_proxy = http://172.25.176.1:7890
+https_proxy = http://172.27.144.1:7890
 # environment
 LC_ALL = C
 # environment
@@ -143,17 +141,15 @@ SUFFIXES :=
 # default
 .RECIPEPREFIX := 
 # environment
-http_proxy = http://172.25.176.1:7890
+http_proxy = http://172.27.144.1:7890
 # environment
 LANG = C
 # environment
 TERM = xterm-256color
 # environment
 WSL_DISTRO_NAME = Ubuntu
-# environment
-MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=71/1024=7%, Rehash=0, Collisions=5/99=5%
+# Load=69/1024=7%, Rehash=0, Collisions=5/97=5%
 
 # Pattern-specific Variable Values
 
@@ -161,9 +157,9 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 2064, inode 5836): 12 files, no impossibilities.
+# . (device 2064, inode 5836): 11 files, no impossibilities.
 
-# 12 files, no impossibilities in 1 directories.
+# 11 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -208,7 +204,7 @@ all:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-23 23:16:17.551306
+#  Last modified 2022-07-24 01:07:44.211306
 #  File has been updated.
 #  Successfully updated.
 
@@ -223,7 +219,7 @@ clean:
 #  Modification time never checked.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 5):
-	 rm src/default.fs && rm test/test.log && rm test/default.fs &&rm -r build/ 
+	cd build && make clean
 
 # files hash-table stats:
 # Load=5/1024=0%, Rehash=0, Collisions=0/17=0%
@@ -233,12 +229,12 @@ clean:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 18 / storage = 153 B / avg = 8 B
-# current buf: size = 8162 B / used = 153 B / count = 18 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 17 / storage = 143 B / avg = 8 B
+# current buf: size = 8162 B / used = 143 B / count = 17 / avg = 8 B
 
-# strcache performance: lookups = 26 / hit rate = 30%
+# strcache performance: lookups = 25 / hit rate = 32%
 # hash-table stats:
-# Load=18/8192=0%, Rehash=0, Collisions=1/26=4%
-# Finished Make data base on Sat Jul 23 23:16:29 2022
+# Load=17/8192=0%, Rehash=0, Collisions=1/25=4%
+# Finished Make data base on Sun Jul 24 09:15:31 2022
 
  

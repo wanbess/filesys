@@ -1,6 +1,7 @@
 #include"FileManeger.h"
 #include"string.h"
 #include"assert.h"
+#include"user.h"
 FileManeger::FileManeger(){
     ch = std::move(std::unique_ptr<Channel>(new Channel(1024,1024,0,"default.fs")) );
     allocator= std::move(std::unique_ptr<BlockAlloc>(new BlockAlloc(ch.get())));
@@ -160,18 +161,17 @@ std::unique_ptr<Inode> FileManeger::creatDir(const char* str,Inode* root,FileTyp
     LOG("there is no enough space for creat dir %s \r\n",str)
     return nullptr;
 }
-Inode* FileManeger:: getrootInode(){  
+Inode* FileManeger:: getrootInode() const{  
     return root_node.get();
 }
 
-void FileManeger:: mkdir(const char* str){
-    Inode* node=getrootInode();
-    LOG("root node number is %lu \r\n",node->n_inode);
-    creatDir(str,node,FileType::Directory);
+void FileManeger:: mkdir(const char* str,Inode* now){
+    LOG("root node number is %lu \r\n",now->n_inode);
+    creatDir(str,now,FileType::Directory);
 }
-bool FileManeger::find(const char * str,FileType type){
-    Inode* node=getrootInode();
-  std::unique_ptr<Inode> re=  findFile(str,node,FileType::Directory);
+bool FileManeger::find(const char * str,Inode* now,FileType type){
+   
+  std::unique_ptr<Inode> re=  findFile(str,now,FileType::Directory);
   if(re) return 1;
   else return 0;
 }
@@ -256,7 +256,28 @@ bool FileManeger::removeContext(const char* str,FileType type,Inode *root){
    return 1;
 }
 
-bool FileManeger::remove(const char* str,FileType type){
-    Inode * root = getrootInode();
-    return removeContext(str,type,root);
+bool FileManeger::remove(const char* str,Inode* now,FileType type){
+    return removeContext(str,type,now);
+}
+std::unique_ptr<Inode>  FileManeger::changeDir(const char* str,Inode* root){
+    std::unique_ptr<Inode> node=findFile(str,root,FileType::Directory);
+    if(node){
+        return node;
+    }else{
+        LOG("can't cd %s dir doesn't exit \r\n",str)
+    }
+}
+void  FileManeger::addUser(User* user){
+
+  users.insert(user);
+}
+void FileManeger::notifyUsers(){
+    for(auto &it:users){
+        it->disconnect();
+    }
+}
+std::unique_ptr<Inode> FileManeger::getRoot() const{
+     std::unique_ptr<Inode> node(new Inode());
+     ch->getInode(0,node.get());
+     return node;
 }

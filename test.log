@@ -6044,3 +6044,14 @@ is find?:true
 release 1 blocks in no:500 inode, belong data block 
 after remove:   can't find target file: str499 in node dir 
 is find? No 
+root node number is 0 
+can't find target file: last in node dir 
+inode no of : 1 allocate 
+block no :1 allocate 
+-- find inode in block 1 name last 
+find last :true 
+-- find inode in block 1 name last 
+-- inode 1 has been release 
+-- data block 260 has been release 
+release 1 blocks in no:1 inode, belong data block 
+after remove:   can't find target file: last in node dir 

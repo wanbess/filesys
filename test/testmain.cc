@@ -23,9 +23,19 @@ int main(){
          LOG("after remove:   ")
          if(f.find(it.c_str(),FileType::Directory))
          LOG("is find?:true \r\n")
-         else LOG("is find? No \r\n")
-        
+         else LOG("is find? No \r\n")      
     }
+    const char *word="last";
+    f.mkdir(word);
+    if(f.find(word,FileType::Directory)){
+        LOG("find %s :true \r\n",word)
+    }else{
+       LOG("find %s :false \r\n",word) 
+    }
+     f.remove(word,FileType::Directory);
+     LOG("after remove:   ")
+     if(f.find(word,FileType::Directory))
+    LOG("is find?:true \r\n",word)
     return 0;
     CLOSE_LOG(LOGFILE)
 }
