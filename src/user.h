@@ -25,13 +25,14 @@ public:
   int bind(const FileManeger& manger);
   void command(const char* comman);
   void disconnect();
-private:
   void parse(const char* comman);
   void pathparse();
-  void commandCd(Command& com);
-  void commandMkdir(Command& com);
-  void commandRm(Command& com);
-  void commandLink(Command& com);
+  bool commandCd(Command& com);
+  bool commandMkdir(Command& com);
+  bool commandRm(Command& com);
+  bool commandLink(Command& com);
+private:
+  
   Mode auth;
   Inode* now_node;
   FileManeger* maneger;
